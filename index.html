@@ -217,8 +217,38 @@
       .tgroup-head .gname { font-weight: 700; font-size: 13px; }
       .tgroup-head .grange { font-size: 11px; color: var(--ink2); font-family: var(--mono); }
       .tgroup-head .add-btn { margin-left: auto; min-height: 30px; padding: 2px 10px; font-size: 12px; }
-      .entry { display: flex; align-items: center; gap: 6px; margin: 4px 0; }
+      .entry { border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px 6px; margin: 6px 0; }
+      .entry-top { display: flex; align-items: center; gap: 6px; }
       .entry .cat { flex: 1; min-width: 0; overflow-wrap: anywhere; font-size: 13px; }
+      .slider-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+      .slider-row .step-btn { flex: none; width: 40px; min-height: 38px; padding: 0; font-size: 17px; line-height: 1; border-radius: 9px; }
+      .entry input[type="range"] {
+        flex: 1; min-width: 0; height: 38px; margin: 0; padding: 0;
+        background: transparent; -webkit-appearance: none; appearance: none; cursor: pointer; touch-action: pan-y;
+      }
+      .entry input[type="range"]::-webkit-slider-runnable-track {
+        height: 8px; border-radius: 4px; background-color: var(--surface2);
+        background-image:
+          linear-gradient(90deg, transparent calc(50% - 1px), var(--ink2) calc(50% - 1px), var(--ink2) calc(50% + 1px), transparent calc(50% + 1px)),
+          linear-gradient(90deg, color-mix(in srgb, var(--neg-line) 38%, transparent), transparent 50%, color-mix(in srgb, var(--accent) 38%, transparent));
+      }
+      .entry input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none; appearance: none; width: 28px; height: 28px; border-radius: 50%;
+        background: var(--surface); border: 2px solid var(--accent); margin-top: -10px; box-shadow: var(--shadow);
+      }
+      .entry.is-neg input[type="range"]::-webkit-slider-thumb { border-color: var(--neg-line); }
+      .entry input[type="range"]::-moz-range-track {
+        height: 8px; border-radius: 4px; background-color: var(--surface2);
+        background-image:
+          linear-gradient(90deg, transparent calc(50% - 1px), var(--ink2) calc(50% - 1px), var(--ink2) calc(50% + 1px), transparent calc(50% + 1px)),
+          linear-gradient(90deg, color-mix(in srgb, var(--neg-line) 38%, transparent), transparent 50%, color-mix(in srgb, var(--accent) 38%, transparent));
+      }
+      .entry input[type="range"]::-moz-range-thumb {
+        width: 24px; height: 24px; border-radius: 50%;
+        background: var(--surface); border: 2px solid var(--accent); box-shadow: var(--shadow);
+      }
+      .entry.is-neg input[type="range"]::-moz-range-thumb { border-color: var(--neg-line); }
+      .scale-row { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--ink2); margin-top: 1px; padding: 0 48px; }
       .entry input[type="number"] {
         width: 78px; font-family: var(--mono); font-size: 13px; text-align: right;
         border: 1px solid var(--line); border-radius: 7px; padding: 5px 6px; min-height: 34px; background: var(--surface);
@@ -303,14 +333,14 @@
           <button id="btnCopySection">セクションをコピー</button>
         </div>
         <p class="howto">
-          参考画像を見ながらタグ（A＝系統 第1軸／B＝キャラ印象 第2軸）を編集します。値は <b>−1〜1</b> で、<b>マイナスはそのカテゴリから遠ざける（反発させる）</b>指定です（例：シンプル・ベーシックに −1 を付けるとベーシックから強く遠ざかります）。目安との比較は絶対値で行います。編集はこのブラウザに自動保存されます。
+          参考画像を見ながらタグ（A＝系統 第1軸／B＝キャラ印象 第2軸）を編集します。各タグの値は<b>スライダーをドラッグ</b>して調整できます（−1＝強く遠ざける／0＝なし／＋1＝そのものずばり）。細かい調整は −／＋ ボタン（0.05刻み）や数値入力でもできます。値は <b>−1〜1</b> で、<b>マイナスはそのカテゴリから遠ざける（反発させる）</b>指定です（例：シンプル・ベーシックに −1 を付けるとベーシックから強く遠ざかります）。目安との比較は絶対値で行います。編集はこのブラウザに自動保存されます。
           直したら<b>「変更分JSONをダウンロード」</b>してふわに送ってください（適用と再キャリブレーションはふわ側で行います）。
           他のAIに相談するときは下の<b>「他AIに頼むときの情報」</b>からコピーして渡し、回答を貼り戻し欄に貼ってください。
         </p>
 
         <div class="ai-panel">
           <h3>他AIに頼むときの情報</h3>
-          <p>他のAIはこのツールのカテゴリを知らない前提で、コピー文には<b>カテゴリ名一覧（A系統 全33・B印象 全31）と各カテゴリの簡単な説明</b>、値の付け方の目安（マイナス値＝遠ざける指定の説明を含む）、回答形式が自動で入ります。「他AI用にコピー」を押すと、今開いているセクション分が解説付きでコピーされます。</p>
+          <p>「他AI用にコピー」を押すと、画像を見られるマルチモーダルAI向けの依頼文（カテゴリ一覧・出力形式・記入例・推奨つき）と、今開いているセクションのアイテム一覧（箇条書き）がコピーされます。カテゴリは<b>A系統 全33（説明つき）・B印象 全31（名前のみ）</b>です。下のチェックがオンのときは、現在の印象値も参考として付きます。</p>
           <label class="check-row">
             <input type="checkbox" id="chkIncludeValues" checked />
             <span>既存の印象値も含める<span class="note">オフにすると、アイテム名だけを渡してゼロから提案してもらいます（今の値に引っ張られたくないとき用）。上の「セクションをコピー」にもこの設定が効きます。</span></span>
@@ -320,14 +350,14 @@
             <button id="btnCopyCats">カテゴリ解説だけコピー</button>
           </div>
           <details class="catref-details">
-            <summary>カテゴリ一覧と説明を見る（コピー文に入る内容）</summary>
+            <summary>カテゴリ一覧を見る（コピー文に入る内容）</summary>
             <div id="catRefList"></div>
           </details>
         </div>
 
         <div class="paste-panel">
           <h3>貼り戻し（他のAIの回答を適用）</h3>
-          <p>コピーした形式のまま貼り付けて「貼り付けて適用」を押すと、行ごとにタグを丸ごと置き換えます（書かれていないグループは空になります）。「# セクション:」見出しがあると、そのセクションのアイテムとして解釈します。マイナス値（例：カテゴリ=-0.80）もそのまま適用できます。</p>
+          <p>他のAIの回答（出力形式の行）を貼り付けて「貼り付けて適用」を押すと、行ごとにタグを丸ごと置き換えます（書かれていないグループは空になります）。アイテム名からセクションは自動で特定します（「# セクション:」見出しにも対応）。依頼文の見出し・箇条書き・例の行は読み飛ばします。マイナス値（例：カテゴリ=-0.80）もそのまま適用できます。</p>
           <textarea id="pasteText" placeholder="Tシャツ | A主: シンプル・ベーシック=0.95, カジュアル・ナチュラル=0.90 | A副: ストリート=0.60 | A推: フォーマル=-0.50 | B主: 平凡・無個性=0.85"></textarea>
           <div class="paste-actions">
             <button id="btnPaste" class="primary">貼り付けて適用</button>
@@ -14123,33 +14153,33 @@
       /* カテゴリの簡単な説明（他AI向け。コピー文とページ内一覧の両方に使う） */
       var CAT_DESC = {
         "シンプル・ベーシック": "装飾を抑えた定番の形。無地で直線的、合わせやすい基本の系統。",
-        "きれいめカジュアル": "カジュアルでもだらしなく見えない、清潔感のある大人っぽい普段着の系統。",
-        "エレガント": "上品で優雅。なめらかな素材感や流れるラインで気品を出す系統。",
-        "フェミニン": "女性らしさを前面に出す系統。曲線、柔らかい素材、甘さが特徴。",
+        "きれいめカジュアル": "清潔感のある大人っぽい普段着の系統。",
+        "エレガント": "上品で優雅。なめらかな素材感や流れるラインで気品を出す系統。色んなアイテムが該当しすぎるので明らかにエレガントの時以外は値を低めに設定すること。",
+        "フェミニン": "女性らしさ。曲線、柔らかい素材、甘さが特徴。色んなアイテムが該当しすぎるので明らかにフェミニンの時以外は値を低めに設定すること。",
         "大人ガーリー": "可愛さに落ち着きを足した系統。甘すぎず上品に寄せたガーリー。",
         "フレンチガーリー": "パリ風の甘さ。レースやリボンに少しの抜け感と洒落感を混ぜた系統。",
         "フレンチカジュアル": "パリ風の普段着。ボーダーやデニムなど定番を軽く着崩す系統。",
         "量産型ガーリー": "量産型ファッション。ふんわり甘く、リボン・レース・淡色多めの王道可愛い系統。",
-        "地雷系": "黒×ピンク基調の病み可愛い系統。甘さとダークさの同居、厚底やレースアップが特徴。",
+        "地雷系": "黒×ピンク基調の病み可愛い系統。甘さとダークさの同居、厚底やレースアップが特徴。セクシーかつロックな感じ。",
         "サブカル": "サブカルチャー寄り。アニメ・音楽・古着など趣味色が強く個性的な系統。",
         "ロリータ・クラシカル": "クラシカルロリータ。ドレス的な装飾、レース、ふんわりしたシルエットが特徴。",
-        "王子・クラシカル": "王子系。クラシカルで凛とした、少年王子的・貴族的な装いの系統。",
-        "韓国系": "韓国ファッション。タイト×オーバーサイズの対比、モノトーンや淡色が多めの系統。",
+        "王子・クラシカル": "凛とした、少年王子的・貴族的な装いの系統。",
+        "韓国系": "タイト×オーバーサイズの対比、モノトーンや淡色が多めの系統。",
         "ストリート": "スケーターやヒップホップ由来。オーバーサイズ、ロゴ、スニーカー中心の系統。",
         "Y2K": "2000年代風。短丈、メタリック、デニムの重ね着など当時の流行を再現する系統。",
-        "モード": "前衛的・構築的。黒基調、非対称や変形シルエットでファッション性の高さを見せる系統。",
+        "モード": "前衛的・構築的。黒基調、非対称や変形シルエットの系統。該当部が多すぎるので低めにする。",
         "マニッシュ": "男性的な要素を取り入れた系統。ジャケットやパンツで凛と見せる着こなし。",
-        "シティ・トラッド": "都市的なトラッド。ブレザーやチノなど、きちんとした英国風定番の系統。",
+        "シティ・トラッド": "ブレザーやチノなど、きちんとした英国風定番の系統。",
         "シティボーイ": "ゆったりした都会派カジュアル。大きめサイズと清潔感のある、ストリート寄りの定番。",
         "カジュアル・ナチュラル": "自然体の普段着。綿や麻など素材感のある、飾らないリラックスした系統。",
-        "スポーティ・アウトドア": "運動・アウトドア由来。機能素材と動きやすさが中心のアクティブな系統。",
-        "レトロ・ポップ": "昭和レトロ×ポップ。原色や柄、丸みのある形で明るく懐かしい系統。",
+        "スポーティ・アウトドア": "機能素材と動きやすさが中心のアクティブな系統。",
+        "レトロ・ポップ": "原色や柄、丸みのある形で明るく懐かしい系統。",
         "ヴィンテージ・古着": "古着らしい風合い。年代物の柄・色・素材感を楽しむ系統。",
-        "ボヘミアン・リゾート": "民族風×リゾート。刺繍やフリンジ、ゆったりした布使いの自由な系統。",
-        "サーフ・リゾート": "海辺のリゾート風。トロピカル柄など、夏と海を感じる系統。",
+        "ボヘミアン・リゾート": "刺繍やフリンジ、ゆったりした布使いの自由な系統。",
+        "サーフ・リゾート": "トロピカル柄など、夏と海を感じる系統。",
         "アメカジ": "アメリカンカジュアル。デニム、スウェット、ワークブーツなど米国の定番系統。",
         "ワーク・ミリタリー": "作業着・軍服由来。カーゴや迷彩、丈夫な素材と無骨さが特徴の系統。",
-        "ロック": "ロックミュージシャン風。黒、レザー、ダメージ、鋭い小物で反骨感を出す系統。",
+        "ロック": "黒、レザー、ダメージ、鋭い小物で反骨感を出す系統。",
         "ゴシック": "黒基調に十字架やレースなど、退廃的で荘厳な暗さを持つ系統。",
         "パンク": "安全ピン、チェック、スタッズなど、攻撃的で反体制な系統。",
         "ビジカジ・オフィス": "仕事着寄り。ジャケットやシャツなど、職場で浮かないきちんと感の系統。",
@@ -14489,10 +14519,16 @@
           if (!cats.length) h += '<div class="empty-note">（なし）</div>';
           cats.forEach(function (cat) {
             var v = obj[cat];
-            h += '<div class="entry' + (v < 0 ? " is-neg" : "") + '" data-cat="' + esc(cat) + '"><span class="cat">' + esc(cat) + "</span>"
+            h += '<div class="entry' + (v < 0 ? " is-neg" : "") + '" data-cat="' + esc(cat) + '">'
+              + '<div class="entry-top"><span class="cat">' + esc(cat) + "</span>"
               + '<span class="neg-tag">遠ざける</span>'
               + '<input type="number" data-role="val" min="-1" max="1" step="0.05" value="' + fmt(v) + '" class="' + valCls(v, g) + '" aria-label="' + esc(cat) + 'の値" />'
-              + '<button type="button" class="del" data-act="del" aria-label="' + esc(cat) + 'を削除">×</button></div>';
+              + '<button type="button" class="del" data-act="del" aria-label="' + esc(cat) + 'を削除">×</button></div>'
+              + '<div class="slider-row"><button type="button" class="step-btn" data-act="stepdown" aria-label="' + esc(cat) + 'の値を0.05下げる">−</button>'
+              + '<input type="range" data-role="valslider" min="-1" max="1" step="0.01" value="' + fmt(v) + '" aria-label="' + esc(cat) + 'の値（スライダー）" />'
+              + '<button type="button" class="step-btn" data-act="stepup" aria-label="' + esc(cat) + 'の値を0.05上げる">＋</button></div>'
+              + '<div class="scale-row"><span>−1 遠ざける</span><span>0</span><span>＋1 近い</span></div>'
+              + "</div>";
           });
           h += '<div class="add-row" data-role="addrow"><select data-role="addsel" aria-label="追加するカテゴリ">' + getCatOptions() + "</select>"
             + '<button type="button" data-act="addgo">追加する</button>'
@@ -14551,10 +14587,10 @@
       }
       function categoryRefLines(prefix) {
         var lines = [];
-        lines.push(prefix + "【カテゴリ一覧 A軸＝系統（全" + CATS_A.length + "）】");
-        CATS_A.forEach(function (c) { lines.push(prefix + "・" + c + "：" + (CAT_DESC[c] || "")); });
-        lines.push(prefix + "【カテゴリ一覧 B軸＝キャラ印象（全" + CATS_B.length + "）】");
-        CATS_B.forEach(function (c) { lines.push(prefix + "・" + c + "：" + (CAT_DESC[c] || "")); });
+        lines.push(prefix + "### カテゴリ一覧 A軸＝系統");
+        CATS_A.forEach(function (c) { lines.push(prefix + c + "：" + (CAT_DESC[c] || "")); });
+        lines.push(prefix + "### カテゴリ一覧 B軸＝キャラ印象");
+        CATS_B.forEach(function (c) { lines.push(prefix + c); });
         return lines;
       }
       function categoryRefText() {
@@ -14564,28 +14600,38 @@
         ];
         return lines.concat(categoryRefLines("")).join("\n");
       }
+      var AI_EXAMPLE_LINE = "Tシャツ | A主: シンプル・ベーシック=1, フォーマル=-1, カジュアル・ナチュラル=0.90  | A副: ストリート=0.50 ,スポーティ・アウトドア=0.5 | A推: フォーマル=-0.50 | B主: 平凡・無個性=0.5 天然・抜け感=0.5";
+      var AI_TEMPLATE_LINE = "[アイテム名] | A主: [カテゴリ名]=[数値], [カテゴリ名]=[数値]…  | A副: [カテゴリ名]=[数値], [カテゴリ名]=[数値]… | A推: [カテゴリ名]=[数値], [カテゴリ名]=[数値]… | B主: [カテゴリ名]=[数値], [カテゴリ名]=[数値]… ";
       function sectionText(sec) {
         var lines = [
-          "# 【依頼】ファッションアイテムの印象値（各カテゴリへの近さ -1〜1）の見直しをお願いします。",
-          "# A軸＝系統、B軸＝キャラ印象です。カテゴリは下記一覧にあるものだけを使ってください（一覧に無い名前は作らないでください）。",
-          "# グループの目安： 主＝0.85〜1.00（そのものずばり）／副＝0.50〜0.70（要素が強い）／推＝0.15〜0.35（薄く感じる）。値は-1〜1、小数2桁まで。",
-          "# マイナスの値は、そのカテゴリから遠ざける（反発させる）意味です。目安は正の値と同じ絶対値で、-0.85〜-1.00＝強く遠ざける、-0.50〜-0.70＝中程度、-0.15〜-0.35＝薄く遠ざける。",
-          "# 回答は説明文なしで、次の形式の行だけを返してください：",
-          "# アイテム名 | A主: カテゴリ=値, カテゴリ=値 | A副: ... | A推: ... | B主: ... | B副: ... | B推: ...",
-          "# 空のグループは省略できます。カテゴリの追加・削除も可能です。"
+          "# 依頼",
+          "画像を見ることができるマルチモーダルなAIを使用し一つずつ調べて回答すること。",
+          "ファッションアイテムの印象値（各カテゴリへの近さ 0〜1）を実際のアイテムをそれぞれ調べて書いて下さい。",
+          "A軸＝系統、B軸＝キャラ印象です。カテゴリは下記一覧にあるものだけを使ってください（一覧に無い名前は作らないでください）。",
+          "グループの目安(あくまで目安)： 主＝-1.00〜1.00（そのものずばり）／副＝-1.00〜0.70（要素が強い）／推＝-1.00〜0.35（薄く感じる）。値は-1〜1、小数2桁まで。",
+          "### 出力形式",
+          "アイテム名 | A主: カテゴリ=値, カテゴリ=値 | A副: ... | A推: ... | B主: ... | B副: ... | B推: ...",
+          "### 例",
+          AI_EXAMPLE_LINE,
+          AI_TEMPLATE_LINE,
+          "### 推奨",
+          "一つのアイテムの一つの軸にできるだけ沢山の印象値を入れて下さい。",
+          "カテゴリで該当しがちなものは値を低めに入れること。あまり他のアイテムで使われないカテゴリは値は高めに設定すること。必ず全てのカテゴリ名をいずれかのアイテムに合計5回以上使用すること。"
         ];
-        lines = lines.concat(categoryRefLines("# "));
-        lines.push("# セクション: " + sec);
+        lines = lines.concat(categoryRefLines(""));
+        lines.push("---");
+        lines.push("# 指示");
+        lines.push("下記のアイテムについて、印象値を提案してください。");
+        lines.push("### アイテムリスト");
+        Object.keys(EDITOR_DATA.sections[sec].items).forEach(function (name) { lines.push("- " + name); });
         if (includeValues()) {
-          lines.push("# 形式: アイテム名 | A主: カテゴリ=値, ... | A副: ... | A推: ... | B主: ... | B副: ... | B推: ...");
-          lines.push("# 下記は現在の印象値です。おかしいと思うものを書き換えて、同じ形式で全アイテム分を返してください。");
+          lines.push("### 現在の印象値（参考）");
+          lines.push("下記は現在の印象値です。おかしいと思うものは書き換えて、上記の出力形式で全アイテム分を返してください。");
           Object.keys(EDITOR_DATA.sections[sec].items).forEach(function (name) { lines.push(itemLine(sec, name)); });
-        } else {
-          lines.push("# 既存の印象値はあえて含めていません。下記のアイテムについて、ゼロから印象値を提案してください。");
-          Object.keys(EDITOR_DATA.sections[sec].items).forEach(function (name) { lines.push("# 対象アイテム: " + name); });
         }
         return lines.join("\n");
       }
+
 
       /* ================= 貼り戻し ================= */
       function applyPaste() {
@@ -14599,8 +14645,9 @@
         lines.forEach(function (rawLine, li) {
           var line = rawLine.trim();
           if (!line) return;
+          if (line === "---" || line.charAt(0) === "-" || line === AI_EXAMPLE_LINE || line === AI_TEMPLATE_LINE) return;
           if (line.charAt(0) === "#") {
-            var m = line.match(/^#\s*セクション\s*[:：]\s*(.+)$/);
+            var m = line.match(/セクション\s*[:：]\s*(.+)$/);
             if (m) {
               var s = m[1].trim();
               if (EDITOR_DATA.sections[s]) { curSec = s; }
@@ -14608,11 +14655,19 @@
             }
             return;
           }
+          if (line.indexOf("|") < 0) return;
           var parts = line.split("|").map(function (p) { return p.trim(); });
           var name = parts[0];
-          if (!EDITOR_DATA.sections[curSec].items.hasOwnProperty(name)) {
-            problems.push({ n: li + 1, text: rawLine, why: "セクション「" + curSec + "」に無いアイテム" });
-            return;
+          if (name === "アイテム名" || name.indexOf("[") >= 0) return;
+          var useSec = curSec;
+          if (!EDITOR_DATA.sections[useSec].items.hasOwnProperty(name)) {
+            var foundSecs = [];
+            SECTIONS.forEach(function (s) { if (EDITOR_DATA.sections[s].items.hasOwnProperty(name)) foundSecs.push(s); });
+            if (foundSecs.length === 1) { useSec = foundSecs[0]; }
+            else {
+              problems.push({ n: li + 1, text: rawLine, why: foundSecs.length ? "同名アイテムが複数セクションにあり特定できません" : "セクション「" + curSec + "」に無いアイテム" });
+              return;
+            }
           }
           var tags = emptyTags();
           var errs = [];
@@ -14639,9 +14694,9 @@
             problems.push({ n: li + 1, text: rawLine, why: errs.join("／") });
             return;
           }
-          setTags(curSec, name, tags);
+          setTags(useSec, name, tags);
           applied++;
-          if (curSec === currentSection) touchedCurrent = true;
+          if (useSec === currentSection) touchedCurrent = true;
         });
         var h = '<span class="ok">' + applied + " 件を適用しました。</span>";
         if (problems.length) {
@@ -14749,6 +14804,22 @@
         var tgroup = closest(btn, ".tgroup");
         if (!tgroup) return;
         var g = GROUP_BY_ID[tgroup.getAttribute("data-group")];
+        if (act === "stepdown" || act === "stepup") {
+          var entryS = closest(btn, ".entry");
+          var catS = entryS.getAttribute("data-cat");
+          var tagsS = workTags(currentSection, name);
+          var curS = groupOf(tagsS, g)[catS];
+          var nv = Math.max(-1, Math.min(1, Math.round(((typeof curS === "number" ? curS : 0) + (act === "stepup" ? 0.05 : -0.05)) * 100) / 100));
+          if (nv === curS) return;
+          groupOf(tagsS, g)[catS] = nv;
+          setTags(currentSection, name, tagsS);
+          var numS = entryS.querySelector('[data-role="val"]');
+          var sldS = entryS.querySelector('[data-role="valslider"]');
+          if (numS) { numS.value = fmt(nv); syncValCls(numS, entryS, nv, g); }
+          if (sldS) sldS.value = nv;
+          refreshCard(card);
+          return;
+        }
         if (act === "addopen") {
           tgroup.querySelector('[data-role="addrow"]').classList.add("open");
           return;
@@ -14785,17 +14856,22 @@
 
       cardsEl.addEventListener("input", function (ev) {
         var t = ev.target;
-        if (t.getAttribute("data-role") !== "val") return;
+        var role = t.getAttribute("data-role");
+        if (role !== "val" && role !== "valslider") return;
         var card = closest(t, ".card");
         if (!card) return;
         var v = Number(t.value);
-        if (!isFinite(v) || t.value.trim() === "") return;
+        if (!isFinite(v) || String(t.value).trim() === "") return;
         v = Math.max(-1, Math.min(1, Math.round(v * 100) / 100));
         var entry = closest(t, ".entry");
         var tgroup = closest(t, ".tgroup");
         var g = GROUP_BY_ID[tgroup.getAttribute("data-group")];
         var cat = entry.getAttribute("data-cat");
-        syncValCls(t, entry, v, g);
+        var numInput = entry.querySelector('[data-role="val"]');
+        var slider = entry.querySelector('[data-role="valslider"]');
+        if (role === "valslider" && numInput) numInput.value = fmt(v);
+        if (role === "val" && slider) slider.value = v;
+        if (numInput) syncValCls(numInput, entry, v, g);
         var name = card.getAttribute("data-name");
         var tags = workTags(currentSection, name);
         if (groupOf(tags, g)[cat] === v) return;
@@ -14809,16 +14885,20 @@
         var card = closest(t, ".card");
         if (!card) return;
         var name = card.getAttribute("data-name");
-        if (t.getAttribute("data-role") === "val") {
+        if (t.getAttribute("data-role") === "val" || t.getAttribute("data-role") === "valslider") {
           var entry = closest(t, ".entry");
           var tgroup = closest(t, ".tgroup");
           var g = GROUP_BY_ID[tgroup.getAttribute("data-group")];
           var cat = entry.getAttribute("data-cat");
+          var tags0 = workTags(currentSection, name);
+          var curV = groupOf(tags0, g)[cat];
           var v = Number(t.value);
-          if (!isFinite(v)) { t.value = fmt(workTags(currentSection, name) && groupOf(workTags(currentSection, name), g)[cat] || 0); return; }
+          if (!isFinite(v)) v = (typeof curV === "number" ? curV : 0);
           v = Math.max(-1, Math.min(1, Math.round(v * 100) / 100));
-          t.value = fmt(v);
-          syncValCls(t, entry, v, g);
+          var numInput = entry.querySelector('[data-role="val"]');
+          var slider = entry.querySelector('[data-role="valslider"]');
+          if (numInput) { numInput.value = fmt(v); syncValCls(numInput, entry, v, g); }
+          if (slider) slider.value = v;
           var tags = workTags(currentSection, name);
           groupOf(tags, g)[cat] = v;
           setTags(currentSection, name, tags);
